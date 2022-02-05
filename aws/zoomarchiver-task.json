@@ -1,0 +1,122 @@
+{
+  "family": "zoomarchiver",
+  "networkMode": "awsvpc",
+  "executionRoleArn": "REPLACE WITH ARN FOR ZOOMARCHIVER_TASK_EXECUTION_ROLE",
+  "taskRoleArn": "REPLACE WITH ARN FOR ZOOMARCHIVER_TASK_ROLE",
+  "containerDefinitions": [
+    {
+      "name": "zoomarchiver",
+      "image": "REPLACE WITH ECR PATH TO THE LATEST CONTAINER IMAGE",
+      "essential": true,
+      "environment": [
+        {
+          "name": "SHEETS_SCOPE",
+          "value": "https://www.googleapis.com/auth/spreadsheets"
+        },
+        {
+          "name": "SUBJECT",
+          "value": "REPLACE WITH GOOGLE SHEET OWNER"
+        },
+        {
+          "name": "SPREADSHEET_ID",
+          "value": "REPLACE WITH GOOGLE SHEET ID"
+        },
+        {
+          "name": "RANGE",
+          "value": "REPLACE WITH RANGE OF USER IDS IN GOOGLE SHEET"
+        },
+        {
+          "name": "USERS_TABLE",
+          "value": "REPLACE WITH NAME OF USERS DYNAMODB TABLE"
+        },
+        {
+          "name": "FILES_TABLE",
+          "value": "REPLACE WITH NAME OF FILES DYNAMODB TABLE"
+        },
+        {
+          "name": "AGE",
+          "value": "REPLACE WITH VALUE EQUAL TO 10 DAYS BEFORE MAXIMUM AGE OF FILES IN YOUR ZOOM CLOUD"
+        },
+        {
+          "name": "BUCKET",
+          "value": "REPLACE WITH NAME OF YOUR S3 BUCKET"
+        },
+        {
+          "name": "FROM_EMAIL",
+          "value": "REPLACE WITH EMAIL ADDRESS YOU WANT COMPLETETION REPORTS TO COME FROM"
+        },
+        {
+          "name": "TO_EMAIL",
+          "value": "REPLACE WITH EMAIL YOU WOULD LIKE TO RECEIVE COMPLETETION REPORTS"
+        }
+      ],
+      "secrets": [
+        {
+          "name": "GOOG_TYPE",
+          "valueFrom": "REPLACE WITH ARN TO CORESPONDING GOOGLE CREDENTIAL FROM YOUR GOOGLE SERVICE ACCOUNT SECRETS"
+        },
+        {
+          "name": "GOOG_PROJECT_ID",
+          "valueFrom": "REPLACE WITH ARN TO CORESPONDING GOOGLE CREDENTIAL FROM YOUR GOOGLE SERVICE ACCOUNT SECRETS"
+        },
+        {
+          "name": "GOOG_PRIVATE_KEY_ID",
+          "valueFrom": "REPLACE WITH ARN TO CORESPONDING GOOGLE CREDENTIAL FROM YOUR GOOGLE SERVICE ACCOUNT SECRETS"
+        },
+        {
+          "name": "GOOG_PRIVATE_KEY",
+          "valueFrom": "REPLACE WITH ARN TO CORESPONDING GOOGLE CREDENTIAL FROM YOUR GOOGLE SERVICE ACCOUNT SECRETS"
+        },
+        {
+          "name": "GOOG_CLIENT_EMAIL",
+          "valueFrom": "REPLACE WITH ARN TO CORESPONDING GOOGLE CREDENTIAL FROM YOUR GOOGLE SERVICE ACCOUNT SECRETS"
+        },
+        {
+          "name": "GOOG_CLIENT_ID",
+          "valueFrom": "REPLACE WITH ARN TO CORESPONDING GOOGLE CREDENTIAL FROM YOUR GOOGLE SERVICE ACCOUNT SECRETS"
+        },
+        {
+          "name": "GOOG_AUTH_URI",
+          "valueFrom": "REPLACE WITH ARN TO CORESPONDING GOOGLE CREDENTIAL FROM YOUR GOOGLE SERVICE ACCOUNT SECRETS"
+        },
+        {
+          "name": "GOOG_TOKEN_URI",
+          "valueFrom": "REPLACE WITH ARN TO CORESPONDING GOOGLE CREDENTIAL FROM YOUR GOOGLE SERVICE ACCOUNT SECRETS"
+        },
+        {
+          "name": "GOOG_AUTH_PROVIDER_X509_CERT_URL",
+          "valueFrom": "REPLACE WITH ARN TO CORESPONDING GOOGLE CREDENTIAL FROM YOUR GOOGLE SERVICE ACCOUNT SECRETS"
+        },
+        {
+          "name": "GOOG_CLIENT_X509_CERT_URL",
+          "valueFrom": "REPLACE WITH ARN TO CORESPONDING GOOGLE CREDENTIAL FROM YOUR GOOGLE SERVICE ACCOUNT SECRETS"
+        },
+        {
+          "name": "ZOOM_API_KEY",
+          "valueFrom" : "REPLACE WITH ARN OF YOUR ZOOM API KEY"
+        },
+        {
+          "name": "ZOOM_API_SECRET",
+          "valueFrom" : "REPLACE WITH ARN OF YOUR ZOOM API SECRET KEY"
+        },
+        {
+          "name": "MAILCHIMP_CLIENT_ID",
+          "valueFrom": "REPLACE WITH ARN OF YOUR MAILCHIMP CLIENT ID"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "zoomarchiver",
+          "awslogs-region": "REPLACE WITH YOUR AWS REGION",
+          "awslogs-stream-prefix": "zoomarchiver"
+        }
+      }
+    }
+  ],
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "cpu": "256",
+  "memory": "512"
+}
